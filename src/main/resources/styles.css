@@ -1,0 +1,392 @@
+/*
+ * The Third Act — Cinematic Dark Theme
+ * Global stylesheet for the movie journaling application.
+ */
+
+/* ============================================================
+   ROOT & GENERAL
+   ============================================================ */
+
+.root {
+    -fx-base: #0d0d0d;
+    -fx-background: #0d0d0d;
+    -fx-control-inner-background: #1a1a1a;
+    -fx-accent: #d4a846;
+    -fx-focus-color: #d4a846;
+    -fx-faint-focus-color: transparent;
+    -fx-font-family: "Helvetica Neue", "SF Pro Text", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #e0e0e0;
+}
+
+.root-pane {
+    -fx-background-color: #0d0d0d;
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #333333;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #555555;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+
+.top-bar {
+    -fx-background-color: linear-gradient(to bottom, #141414, #0d0d0d);
+    -fx-border-color: transparent transparent #1f1f1f transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.app-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d4a846;
+    -fx-letter-spacing: 3px;
+}
+
+.view-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.new-entry-btn {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0d0d0d;
+    -fx-background-color: #d4a846;
+    -fx-padding: 10 24;
+    -fx-background-radius: 8;
+}
+
+.new-entry-btn:hover {
+    -fx-background-color: #e6bb55;
+}
+
+.back-btn {
+    -fx-font-size: 14px;
+    -fx-text-fill: #d4a846;
+    -fx-padding: 8 16;
+    -fx-background-color: transparent;
+    -fx-border-color: #d4a846;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1;
+}
+
+.back-btn:hover {
+    -fx-background-color: rgba(212, 168, 70, 0.15);
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+
+.dashboard-root {
+    -fx-background-color: #0d0d0d;
+}
+
+.dashboard-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+/* Cinema Tracker */
+
+.tracker-box {
+    -fx-padding: 16 0 8 0;
+}
+
+.tracker-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #cccccc;
+    -fx-font-weight: bold;
+}
+
+.tracker-bar-container {
+    -fx-background-color: #2a2a2a;
+    -fx-background-radius: 4;
+    -fx-min-height: 8;
+    -fx-max-height: 8;
+    -fx-pref-height: 8;
+}
+
+.tracker-bar-fill {
+    -fx-background-color: linear-gradient(to right, #d4a846, #e6bb55);
+    -fx-background-radius: 4;
+    -fx-min-height: 8;
+    -fx-max-height: 8;
+}
+
+/* Entry Cards */
+
+.entries-grid {
+    -fx-background-color: transparent;
+}
+
+.entry-card {
+    -fx-background-color: #1a1a1a;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 12, 0, 0, 4);
+}
+
+.card-overlay {
+    -fx-background-color: linear-gradient(to top,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.1) 100%);
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.card-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: #d4a846;
+}
+
+.empty-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #666666;
+    -fx-padding: 60 0 0 0;
+}
+
+/* ============================================================
+   SEARCH VIEW
+   ============================================================ */
+
+.search-root {
+    -fx-background-color: #0d0d0d;
+}
+
+.search-field {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: #e0e0e0;
+    -fx-prompt-text-fill: #666666;
+    -fx-padding: 12 16;
+    -fx-font-size: 15px;
+    -fx-background-radius: 8;
+    -fx-border-color: #333333;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.search-field:focused {
+    -fx-border-color: #d4a846;
+}
+
+.search-btn {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0d0d0d;
+    -fx-background-color: #d4a846;
+    -fx-padding: 12 28;
+    -fx-background-radius: 8;
+}
+
+.search-btn:hover {
+    -fx-background-color: #e6bb55;
+}
+
+.status-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #999999;
+}
+
+/* Search Result Rows */
+
+.search-result-row {
+    -fx-background-color: #141414;
+    -fx-background-radius: 10;
+    -fx-border-color: #222222;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+.search-result-row-hover {
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #d4a846;
+}
+
+.result-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.result-year {
+    -fx-font-size: 13px;
+    -fx-text-fill: #d4a846;
+}
+
+.result-overview {
+    -fx-font-size: 12px;
+    -fx-text-fill: #999999;
+}
+
+/* ============================================================
+   ENTRY FORM VIEW
+   ============================================================ */
+
+.entry-form-root {
+    -fx-background-color: #0d0d0d;
+}
+
+.entry-movie-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.entry-movie-year {
+    -fx-font-size: 16px;
+    -fx-text-fill: #d4a846;
+}
+
+.field-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d4a846;
+    -fx-text-transform: uppercase;
+}
+
+.journal-text-area {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: #e0e0e0;
+    -fx-prompt-text-fill: #555555;
+    -fx-padding: 12;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-border-color: #333333;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.journal-text-area:focused {
+    -fx-border-color: #d4a846;
+}
+
+.journal-text-area .content {
+    -fx-background-color: #1a1a1a;
+}
+
+.theater-toggle {
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 14px;
+}
+
+.theater-toggle .box {
+    -fx-background-color: #2a2a2a;
+    -fx-border-color: #555555;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+.theater-toggle:selected .box {
+    -fx-background-color: #d4a846;
+    -fx-border-color: #d4a846;
+}
+
+.theater-toggle:selected .mark {
+    -fx-background-color: #0d0d0d;
+}
+
+.save-btn {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0d0d0d;
+    -fx-background-color: #d4a846;
+    -fx-padding: 12 36;
+    -fx-background-radius: 8;
+}
+
+.save-btn:hover {
+    -fx-background-color: #e6bb55;
+}
+
+.cancel-btn {
+    -fx-font-size: 14px;
+    -fx-text-fill: #999999;
+    -fx-background-color: transparent;
+    -fx-padding: 12 24;
+    -fx-border-color: #444444;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-width: 1;
+}
+
+.cancel-btn:hover {
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #888888;
+}
+
+/* ============================================================
+   DATE PICKER OVERRIDES
+   ============================================================ */
+
+.date-picker {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #333333;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.date-picker .text-field {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: #e0e0e0;
+    -fx-font-size: 14px;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #2a2a2a;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #d4a846;
+}
+
+/* ============================================================
+   PROGRESS INDICATOR
+   ============================================================ */
+
+.progress-indicator .indicator {
+    -fx-border-color: #d4a846;
+    -fx-border-width: 3;
+}
