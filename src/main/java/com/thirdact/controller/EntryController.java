@@ -37,8 +37,8 @@ public class EntryController {
                 .setTmdbId(movie.getId())
                 .setTitle(movie.getTitle())
                 .setReleaseYear(movie.getReleaseYear())
-                .setPosterUrl(movie.getPosterUrl())
-                .setBackdropUrl(movie.getBackdropUrl())
+                .setPosterUrl(movie.getPosterUrlLarge()) // w500 — crisp at 120px display
+                .setBackdropUrl(movie.getBackdropUrl()) // w1280 — cinematic quality
                 .setWatchDate(LocalDate.now().toString());
 
         view.populateForm(entry, false);

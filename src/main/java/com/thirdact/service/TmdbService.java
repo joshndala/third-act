@@ -128,19 +128,20 @@ public class TmdbService {
 
     /**
      * Resolves the TMDb API key in order:
-     * 1. System environment variable TMDB_API_KEY
-     * 2. .env file in the current working directory
-     * 3. config.properties on the classpath
+     * 1. TMDB_API_KEY environment variable (CI / shell export)
+     * 2. .env file in the working directory (local dev)
+     * 3. ~/.thirdact/config.properties (packaged DMG — user's own key)
+     * 4. config.properties on the classpath (last-resort fallback)
      */
     private String resolveApiKey() {
-        // 1. Check system environment variable
+        // 1. Environment variable
         String envKey = System.getenv("TMDB_API_KEY");
         if (envKey != null && !envKey.isBlank()) {
             System.out.println("[TmdbService] API key loaded from environment variable.");
             return envKey.trim();
         }
 
-        // 2. Check .env file
+        // 2. .env file (development)
         Path envFile = Path.of(".env");
         if (Files.exists(envFile)) {
             try (BufferedReader reader = Files.newBufferedReader(envFile)) {
@@ -160,19 +161,35 @@ public class TmdbService {
             }
         }
 
-        // 3. Fallback to config.properties
+        // 3. ~/.thirdact/config.properties (packaged app — saved by first-launch setup)
+        Path userConfig = Path.of(System.getProperty("user.home"), ".thirdact", "config.properties");
+        if (Files.exists(userConfig)) {
+            try (InputStream is = Files.newInputStream(userConfig)) {
+                Properties props = new Properties();
+                props.load(is);
+                String key = props.getProperty("tmdb.api_key", "").trim();
+                if (!key.isBlank()) {
+                    System.out.println("[TmdbService] API key loaded from ~/.thirdact/config.properties.");
+                    return key;
+                }
+            } catch (IOException e) {
+                System.err.println("[TmdbService] Error reading user config: " + e.getMessage());
+            }
+        }
+
+        // 4. Classpath config.properties (last resort)
         try (InputStream is = getClass().getClassLoader().getResourceAsStream("config.properties")) {
             if (is != null) {
                 Properties props = new Properties();
                 props.load(is);
                 String propKey = props.getProperty("tmdb.api_key", "");
                 if (!propKey.isBlank()) {
-                    System.out.println("[TmdbService] API key loaded from config.properties (fallback).");
+                    System.out.println("[TmdbService] API key loaded from classpath config.properties.");
                     return propKey;
                 }
             }
         } catch (IOException e) {
-            System.err.println("[TmdbService] Error reading config.properties: " + e.getMessage());
+            System.err.println("[TmdbService] Error reading classpath config: " + e.getMessage());
         }
 
         return "";

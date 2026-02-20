@@ -189,7 +189,7 @@ public class DashboardView {
             backdrop.setFitHeight(cardHeight);
             backdrop.setPreserveRatio(false);
 
-            Image img = new Image(entry.getBackdropUrl(), cardWidth, cardHeight, false, true, true);
+            Image img = new Image(entry.getBackdropUrl(), true); // load at native res, background thread
             backdrop.setImage(img);
             card.getChildren().add(backdrop);
         }

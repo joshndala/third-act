@@ -91,9 +91,9 @@ public class EntryFormView {
 
         // --- Text Areas ---
         summaryArea = createTextArea("Tell a friend — what's this movie about?", 3);
-        vibeArea = createTextArea("What did it feel like to watch this?", 3);
-        peakMomentArea = createTextArea("The single most impactful scene or moment...", 3);
-        extraNotesArea = createTextArea("Any extra thoughts, trivia, or context...", 3);
+        vibeArea = createTextArea("What did it feel like to watch this?", 4);
+        peakMomentArea = createTextArea("The single most impactful scene or moment...", 6);
+        extraNotesArea = createTextArea("Any extra thoughts, trivia, or context...", 4);
 
         VBox fieldsBox = new VBox(16,
                 labeledField("The Summary", summaryArea),
@@ -155,7 +155,7 @@ public class EntryFormView {
 
         // Load poster
         if (posterUrl != null && !posterUrl.isBlank()) {
-            posterView.setImage(new Image(posterUrl, 120, 180, true, true, true));
+            posterView.setImage(new Image(posterUrl, true)); // native res, background load
         } else {
             posterView.setImage(null);
         }
