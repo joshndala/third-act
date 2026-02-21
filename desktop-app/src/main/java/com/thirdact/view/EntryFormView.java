@@ -39,6 +39,7 @@ public class EntryFormView {
     private final DatePicker watchDatePicker;
     private final Label saveBtn;
     private final Label cancelBtn;
+    private final Label deleteBtn;
     private final Label statusLabel;
 
     // Import from notes
@@ -143,10 +144,18 @@ public class EntryFormView {
         cancelBtn.setCursor(Cursor.HAND);
         cancelBtn.setOnMouseClicked(e -> controller.cancel());
 
+        deleteBtn = new Label("Delete");
+        deleteBtn.getStyleClass().add("cancel-btn");
+        deleteBtn.setStyle("-fx-text-fill: #e74c3c;");
+        deleteBtn.setCursor(Cursor.HAND);
+        deleteBtn.setOnMouseClicked(e -> onDelete());
+        deleteBtn.setVisible(false);
+        deleteBtn.managedProperty().bind(deleteBtn.visibleProperty());
+
         statusLabel = new Label();
         statusLabel.getStyleClass().add("status-label");
 
-        HBox actionRow = new HBox(16, saveBtn, cancelBtn, statusLabel);
+        HBox actionRow = new HBox(16, saveBtn, cancelBtn, deleteBtn, statusLabel);
         actionRow.setAlignment(Pos.CENTER_LEFT);
 
         VBox formContent = new VBox(20, headerBox, fieldsBox, optionsRow, actionRow);
@@ -200,6 +209,7 @@ public class EntryFormView {
         }
 
         saveBtn.setText(isEdit ? "Update Entry" : "Save Entry");
+        deleteBtn.setVisible(isEdit);
         statusLabel.setText("");
         importStatusLabel.setText("");
         importBtn.setDisable(false);
@@ -219,8 +229,24 @@ public class EntryFormView {
     public void setImporting(boolean importing) {
         importBtn.setDisable(importing);
         saveBtn.setDisable(importing);
+        deleteBtn.setDisable(importing);
+
+        // Freeze inputs but don't freeze the whole root (Cancel should stay clickable)
+        summaryArea.setDisable(importing);
+        vibeArea.setDisable(importing);
+        peakMomentArea.setDisable(importing);
+        extraNotesArea.setDisable(importing);
+        theaterToggle.setDisable(importing);
+        watchDatePicker.setDisable(importing);
+        ratingControl.setDisable(importing);
+
         importStatusLabel.setStyle("");
         importStatusLabel.setText(importing ? "⏳  Analysing with Gemini…" : "");
+
+        // Also clear any previous general errors
+        if (importing) {
+            statusLabel.setText("");
+        }
     }
 
     /**
@@ -228,6 +254,7 @@ public class EntryFormView {
      * The user can still edit before saving.
      */
     public void fillFromAI(Map<String, String> result) {
+        statusLabel.setText(""); // clear the general error label if any
         setTextIfNotEmpty(summaryArea, result.get("summary"));
         setTextIfNotEmpty(vibeArea, result.get("vibe"));
         setTextIfNotEmpty(peakMomentArea, result.get("peakMoment"));
@@ -270,6 +297,19 @@ public class EntryFormView {
             importStatusLabel.setText("");
             controller.importFromFiles(files);
         }
+    }
+
+    private void onDelete() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Entry");
+        alert.setHeaderText("Delete Movie Log");
+        alert.setContentText("Are you sure? This action cannot be undone.");
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                controller.deleteEntry();
+            }
+        });
     }
 
     private void onSave() {

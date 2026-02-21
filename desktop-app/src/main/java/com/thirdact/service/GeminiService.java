@@ -30,7 +30,8 @@ public class GeminiService {
 
     public GeminiService() {
         this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(15))
+                .version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(Duration.ofSeconds(30))
                 .build();
     }
 

@@ -143,6 +143,42 @@ public class EntryController {
     }
 
     /**
+     * Deletes the current entry on a background thread.
+     */
+    public void deleteEntry() {
+        if (existingEntry == null)
+            return;
+
+        view.setSaving(true);
+
+        Task<Void> deleteTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                dao.deleteEntry(existingEntry.getId());
+                return null;
+            }
+        };
+
+        deleteTask.setOnSucceeded(event -> Platform.runLater(() -> {
+            view.setSaving(false);
+            mainController.showDashboard();
+        }));
+
+        deleteTask.setOnFailed(event -> {
+            Throwable error = deleteTask.getException();
+            Platform.runLater(() -> {
+                view.setSaving(false);
+                view.showError("Delete failed: " + error.getMessage());
+            });
+            error.printStackTrace();
+        });
+
+        Thread thread = new Thread(deleteTask);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    /**
      * Cancels the form and returns to the dashboard.
      */
     public void cancel() {
