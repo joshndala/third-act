@@ -11,11 +11,12 @@
         relationship with film.
       </p>
       <div class="hero-cta">
-        <a href="https://github.com/joshndala/third-act" target="_blank" class="btn-primary">
+        <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
           ↓ Download for Mac
         </a>
         <RouterLink to="/why" class="btn-ghost">Why it exists →</RouterLink>
       </div>
+      <p class="hero-platform-note">Currently exclusive to macOS</p>
     </div>
     <div class="hero-grain"></div>
   </section>
@@ -140,6 +141,14 @@
   background: rgba(245,242,233,0.1);
   color: var(--cream);
   border-color: var(--cream);
+}
+.hero-platform-note {
+  font-size: 0.8rem;
+  color: rgba(245,242,233,0.35);
+  margin-top: 20px;
+  font-family: var(--font-sans);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 /* ── Features ───────────────────────────────────────── */

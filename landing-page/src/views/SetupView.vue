@@ -64,14 +64,13 @@
         <h2>Download the app</h2>
       </div>
       <p class="step-desc">
-        Grab the latest release from GitHub. Download the <code>.jar</code> file
-        from the Releases page — no installer needed.
+        Grab the latest release from GitHub. Download the <code>.dmg</code> file
+        and install it like any other Mac app.
       </p>
       <a
-        href="https://github.com/joshndala/third-act/releases"
-        target="_blank"
+        href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg"
         class="btn-primary"
-      >Visit GitHub Releases →</a>
+      >Download for Mac ↓</a>
     </div>
   </section>
 
@@ -170,7 +169,7 @@
         Search for a film, fill in your thoughts, and start building a journal
         that's actually worth re-reading.
       </p>
-      <a href="https://github.com/joshndala/third-act" target="_blank" class="btn-primary">
+      <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
         ↓ Download The Third Act
       </a>
     </div>

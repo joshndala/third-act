@@ -3,7 +3,10 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <img src="/icon.png" alt="The Third Act" />
-        <p>Reflect. Record. Feel.</p>
+        <div class="footer-brand-text">
+          <p class="footer-tagline">Reflect. Record. Feel.</p>
+          <p class="footer-platform">Designed for macOS</p>
+        </div>
       </div>
       <div class="footer-links">
         <RouterLink to="/">Home</RouterLink>
@@ -45,11 +48,23 @@ footer {
   object-fit: contain;
   filter: brightness(1.1);
 }
-.footer-brand p {
+.footer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+.footer-tagline {
   font-family: var(--font-serif);
   font-style: italic;
   color: var(--cream);
   opacity: 0.7;
+  margin: 0;
+}
+.footer-platform {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.35;
+  margin: 2px 0 0 0;
 }
 .footer-links {
   display: flex;

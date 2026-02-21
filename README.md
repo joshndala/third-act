@@ -2,6 +2,10 @@
 
 A visually rich, cinematic movie journaling experience. Capture how films make you feel, tracked beautifully.
 
+**[↓ Download for macOS](https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg)**
+
+---
+
 This project consists of two main components:
 1.  **[Desktop App](file:///Users/joshua_ndala/repos/third-act/desktop-app)** — The core JavaFX application for journaling and tracking.
 2.  **[Landing Page](file:///Users/joshua_ndala/repos/third-act/landing-page)** — A modern Vue.js marketing site.

@@ -92,7 +92,7 @@
     <div class="section" style="text-align:center">
       <h2>Ready to actually remember<br />what you watched?</h2>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:36px">
-        <a href="https://github.com/joshndala/third-act" target="_blank" class="btn-primary">Download for Mac</a>
+        <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">Download for Mac</a>
         <RouterLink to="/setup" class="btn-ghost">See the setup guide →</RouterLink>
       </div>
     </div>

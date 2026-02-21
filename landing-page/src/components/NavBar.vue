@@ -9,7 +9,7 @@
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/why">Why</RouterLink>
         <RouterLink to="/setup">Setup</RouterLink>
-        <a href="https://github.com/joshndala/third-act" target="_blank" class="btn-primary nav-cta">Download</a>
+        <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary nav-cta">Download</a>
       </div>
       <!-- Mobile toggle -->
       <button class="menu-toggle" @click="open = !open" :aria-expanded="open">
@@ -20,7 +20,7 @@
       <RouterLink to="/" @click="open = false">Home</RouterLink>
       <RouterLink to="/why" @click="open = false">Why</RouterLink>
       <RouterLink to="/setup" @click="open = false">Setup</RouterLink>
-      <a href="https://github.com/joshndala/third-act" target="_blank" class="btn-primary">Download</a>
+      <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">Download</a>
     </div>
   </header>
 </template>
