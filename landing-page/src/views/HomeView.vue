@@ -11,9 +11,12 @@
         relationship with film.
       </p>
       <div class="hero-cta">
-        <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
+        <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
           ↓ Download for Mac
         </a>
+        <button v-else class="btn-primary is-disabled" title="Exclusive to macOS desktop">
+          macOS Required to Install
+        </button>
         <RouterLink to="/why" class="btn-ghost">Why it exists →</RouterLink>
       </div>
       <p class="hero-platform-note">Currently exclusive to macOS</p>
@@ -65,12 +68,16 @@
         <span class="quote-mark">"</span>
       </blockquote>
       <p class="quote-sub">The Third Act is where you put it down on paper.</p>
-      <RouterLink to="/setup" class="btn-primary">Get started in 5 minutes →</RouterLink>
+      <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">Get started in 5 minutes →</a>
+      <button v-else class="btn-primary is-disabled">Exclusive to macOS</button>
     </div>
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { usePlatformDetection } from '../composables/usePlatformDetection'
+const { isSupported } = usePlatformDetection()
+</script>
 
 <style scoped>
 /* ── Hero ───────────────────────────────────────────── */
@@ -122,7 +129,7 @@
 }
 .hero-sub {
   font-size: 1.15rem;
-  color: rgba(245,242,233,0.65);
+  color: rgba(245,242,233,0.85);
   max-width: 560px;
   margin: 0 auto 44px;
   line-height: 1.75;
@@ -132,6 +139,11 @@
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
+}
+.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: none;
 }
 .hero .btn-ghost {
   color: var(--cream);
@@ -144,7 +156,7 @@
 }
 .hero-platform-note {
   font-size: 0.8rem;
-  color: rgba(245,242,233,0.35);
+  color: rgba(245,242,233,0.6);
   margin-top: 20px;
   font-family: var(--font-sans);
   letter-spacing: 0.05em;

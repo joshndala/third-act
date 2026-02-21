@@ -91,15 +91,19 @@
   <section class="why-cta">
     <div class="section" style="text-align:center">
       <h2>Ready to actually remember<br />what you watched?</h2>
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:36px">
-        <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">Download for Mac</a>
+      <div class="why-cta-btns">
+        <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">Download for Mac</a>
+        <button v-else class="btn-primary is-disabled">Exclusive to macOS</button>
         <RouterLink to="/setup" class="btn-ghost">See the setup guide →</RouterLink>
       </div>
     </div>
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { usePlatformDetection } from '../composables/usePlatformDetection'
+const { isSupported } = usePlatformDetection()
+</script>
 
 <style scoped>
 /* ── Hero ───────────────────────────────────────────── */
@@ -138,7 +142,7 @@
   margin-bottom: 20px;
 }
 .antilog-text p {
-  color: rgba(245,242,233,0.7);
+  color: rgba(245,242,233,0.85);
   font-size: 1rem;
   line-height: 1.8;
   margin-bottom: 16px;
@@ -186,8 +190,14 @@
 }
 .pillars-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+@media (max-width: 768px) {
+  .pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
 .pillar-card {
   border-radius: var(--card-radius);
@@ -249,6 +259,18 @@
 .why-cta h2 {
   color: var(--cream);
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+}
+.why-cta-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: none;
 }
 .why-cta .btn-ghost {
   color: var(--cream);

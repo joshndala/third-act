@@ -68,9 +68,11 @@
         and install it like any other Mac app.
       </p>
       <a
+        v-if="isSupported"
         href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg"
         class="btn-primary"
       >Download for Mac ↓</a>
+      <button v-else class="btn-primary is-disabled">Exclusive to macOS</button>
     </div>
   </section>
 
@@ -169,14 +171,18 @@
         Search for a film, fill in your thoughts, and start building a journal
         that's actually worth re-reading.
       </p>
-      <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
+      <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
         ↓ Download The Third Act
       </a>
+      <button v-else class="btn-primary is-disabled">Exclusive to macOS</button>
     </div>
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { usePlatformDetection } from '../composables/usePlatformDetection'
+const { isSupported } = usePlatformDetection()
+</script>
 
 <style scoped>
 /* ── Hero ───────────────────────────────────────────── */
@@ -237,7 +243,7 @@
   margin-bottom: 2px;
 }
 .prereq-list span {
-  color: rgba(245,242,233,0.6);
+  color: rgba(245,242,233,0.8);
   font-size: 0.9rem;
   line-height: 1.6;
 }
@@ -368,7 +374,7 @@
 /* ── Gemini section ─────────────────────────────────── */
 .gemini-section.step-alt { background: var(--navy); }
 .gemini-section .step-desc,
-.gemini-section .step-item p { color: rgba(245,242,233,0.7); }
+.gemini-section .step-item p { color: rgba(245,242,233,0.85); }
 .gemini-section .step-header h2 { color: var(--cream); }
 .gemini-section .step-item strong { color: var(--cream); }
 .gemini-tip {
@@ -399,6 +405,11 @@
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
   color: var(--navy-deep);
   margin-bottom: 16px;
+}
+.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: none;
 }
 .done-sub {
   color: var(--navy-deep);

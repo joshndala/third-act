@@ -1,5 +1,5 @@
 <template>
-  <header :class="{ scrolled }">
+  <header :class="{ scrolled, 'dark-hero': isDarkHero }">
     <nav>
       <RouterLink to="/" class="nav-logo">
         <img src="/icon.png" alt="The Third Act" />
@@ -9,7 +9,8 @@
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/why">Why</RouterLink>
         <RouterLink to="/setup">Setup</RouterLink>
-        <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary nav-cta">Download</a>
+        <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary nav-cta">Download</a>
+        <button v-else class="btn-primary nav-cta is-disabled" title="Currently exclusive to macOS desktop">Mac Required</button>
       </div>
       <!-- Mobile toggle -->
       <button class="menu-toggle" @click="open = !open" :aria-expanded="open">
@@ -20,15 +21,24 @@
       <RouterLink to="/" @click="open = false">Home</RouterLink>
       <RouterLink to="/why" @click="open = false">Why</RouterLink>
       <RouterLink to="/setup" @click="open = false">Setup</RouterLink>
-      <a href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">Download</a>
+      <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">Download</a>
+      <button v-else class="btn-primary is-disabled">Mac Required</button>
     </div>
   </header>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { usePlatformDetection } from '../composables/usePlatformDetection'
+
+const route = useRoute()
+const { isSupported } = usePlatformDetection()
 const scrolled = ref(false)
 const open = ref(false)
+
+const isHome = computed(() => route.path === '/')
+const isDarkHero = computed(() => isHome.value && !scrolled.value)
 
 function onScroll() { scrolled.value = window.scrollY > 40 }
 onMounted(() => window.addEventListener('scroll', onScroll))
@@ -93,6 +103,11 @@ nav {
   padding: 10px 24px !important;
   font-size: 0.9rem !important;
 }
+.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -123,6 +138,13 @@ nav {
   font-weight: 500;
   color: var(--navy);
   text-decoration: none;
+}
+header.dark-hero .nav-links a:not(.nav-cta),
+header.dark-hero .nav-logo span {
+  color: var(--cream);
+}
+header.dark-hero .menu-toggle span {
+  background: var(--cream);
 }
 @media (max-width: 768px) {
   .nav-links { display: none; }

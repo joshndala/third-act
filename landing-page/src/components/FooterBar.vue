@@ -72,7 +72,7 @@ footer {
   margin-left: auto;
 }
 .footer-links a {
-  color: rgba(245,242,233,0.6);
+  color: rgba(245,242,233,0.85);
   font-size: 0.9rem;
   text-decoration: none;
   transition: color 0.2s;
@@ -82,7 +82,7 @@ footer {
   width: 100%;
   text-align: center;
   font-size: 0.8rem;
-  color: rgba(245,242,233,0.35);
+  color: rgba(245,242,233,0.6);
   margin-top: 16px;
 }
 </style>
