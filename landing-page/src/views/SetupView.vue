@@ -162,6 +162,23 @@
     </div>
   </section>
 
+  <!-- ══ OPEN SOURCE ═══════════════════════════════════════════════════════ -->
+  <section class="step-section">
+    <div class="section">
+      <div class="step-header">
+        <span class="step-badge">For Developers</span>
+        <h2>100% Open Source</h2>
+      </div>
+      <p class="step-desc" style="max-width: 800px; margin-bottom: 16px;">
+        Prefer to compile it yourself? The Third Act is completely open source software. You have the total freedom to see, download, and edit the code however you want through the codebase. You can verify every line to ensure your data never leaves your machine, or even tweak the app to perfectly fit your own personal workflow.
+      </p>
+      <p class="step-desc" style="max-width: 800px;">
+         Head over to our 
+         <a href="https://github.com/joshndala/third-act" target="_blank" style="color: var(--navy); font-weight: 600; text-decoration: underline;">GitHub repository</a> to grab the source code. The <code>README.md</code> contains all the instructions needed to run the JavaFX desktop application locally.
+      </p>
+    </div>
+  </section>
+
   <!-- ══ DONE ═══════════════════════════════════════════════════════════════ -->
   <section class="done-section">
     <div class="section" style="text-align:center">

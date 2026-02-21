@@ -30,7 +30,7 @@
       <p class="section-label" style="text-align:center">What's inside</p>
       <h2 style="text-align:center;margin-bottom:60px">Built for how you<br />actually feel about movies</h2>
       <div class="features-grid">
-        <div class="feature-card">
+        <div class="feature-card feature-card--1">
           <div class="feature-icon">🔒</div>
           <h3>Truly Private</h3>
           <p>
@@ -38,7 +38,7 @@
             account, no one reading your takes. It's yours, full stop.
           </p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card feature-card--2">
           <div class="feature-icon">🎬</div>
           <h3>Meaningful Entries</h3>
           <p>
@@ -46,13 +46,20 @@
             Extra Notes — push you to reflect, not just log.
           </p>
         </div>
-        <div class="feature-card feature-card--gold">
+        <div class="feature-card feature-card--3">
           <div class="feature-icon">✨</div>
           <h3>AI-Powered Archiving</h3>
           <p>
             Already wrote your thoughts on paper? Snap a photo and let AI
             transcribe your handwritten notes directly into the journal —
             word for word.
+          </p>
+        </div>
+        <div class="feature-card feature-card--4">
+          <div class="feature-icon">🔓</div>
+          <h3>Fully Open Source</h3>
+          <p>
+            The Third Act is completely open source. You can see, download, and edit the code however you want through our <a href="https://github.com/joshndala/third-act" target="_blank" rel="noopener" class="text-link">GitHub repo</a>. For more details, verify the <RouterLink to="/setup" class="text-link">Setup page</RouterLink>.
           </p>
         </div>
       </div>
@@ -173,11 +180,16 @@ const { isSupported } = usePlatformDetection()
 }
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 28px;
 }
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
 .feature-card {
-  background: var(--cream-dark);
   border-radius: var(--card-radius);
   padding: 40px 32px;
   border: 1px solid rgba(43,51,88,0.08);
@@ -187,15 +199,19 @@ const { isSupported } = usePlatformDetection()
   transform: translateY(-6px);
   box-shadow: 0 20px 50px rgba(43,51,88,0.1);
 }
-.feature-card--gold {
-  background: var(--navy);
-  border-color: transparent;
-}
-.feature-card--gold h3,
-.feature-card--gold p {
+.feature-card--1 { background: #EDE9DC; }
+.feature-card--2 { background: var(--navy); }
+.feature-card--2 h3,
+.feature-card--2 p {
   color: var(--cream);
 }
-.feature-card--gold p { opacity: 0.8; }
+.feature-card--2 p { opacity: 0.8; }
+.feature-card--3 { background: var(--gold); }
+.feature-card--3 h3,
+.feature-card--3 p {
+  color: var(--navy-deep);
+}
+.feature-card--4 { background: #EDE9DC; }
 .feature-icon {
   font-size: 2rem;
   margin-bottom: 16px;
@@ -208,6 +224,18 @@ const { isSupported } = usePlatformDetection()
   font-size: 0.97rem;
   line-height: 1.7;
   color: var(--ink-muted);
+}
+
+.text-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(43,51,88,0.3);
+  transition: text-decoration-color 0.2s ease;
+  font-weight: 500;
+}
+
+.text-link:hover {
+  text-decoration-color: var(--navy-deep);
 }
 
 /* ── Quote ──────────────────────────────────────────── */
