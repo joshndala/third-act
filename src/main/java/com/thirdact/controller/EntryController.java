@@ -3,27 +3,33 @@ package com.thirdact.controller;
 import com.thirdact.dao.JournalEntryDAO;
 import com.thirdact.model.JournalEntry;
 import com.thirdact.model.TmdbMovie;
+import com.thirdact.service.GeminiService;
 import com.thirdact.view.EntryFormView;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for the journal entry form.
- * Handles save/update operations on background threads.
+ * Handles save/update and AI import operations on background threads.
  */
 public class EntryController {
 
     private final MainController mainController;
     private final EntryFormView view;
     private final JournalEntryDAO dao;
+    private final GeminiService geminiService;
 
     private JournalEntry existingEntry; // null if creating new
 
     public EntryController(MainController mainController) {
         this.mainController = mainController;
         this.dao = new JournalEntryDAO();
+        this.geminiService = new GeminiService();
         this.view = new EntryFormView(this);
     }
 
@@ -86,6 +92,44 @@ public class EntryController {
         });
 
         Thread thread = new Thread(saveTask);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    /**
+     * Sends the uploaded files to Gemini for word-for-word text extraction,
+     * then populates the form fields with the AI result.
+     *
+     * @param files List of image (jpg/png/webp) or PDF files selected by the user.
+     */
+    public void importFromFiles(List<File> files) {
+        if (files == null || files.isEmpty())
+            return;
+
+        view.setImporting(true);
+
+        Task<Map<String, String>> importTask = new Task<>() {
+            @Override
+            protected Map<String, String> call() throws Exception {
+                return geminiService.analyzeNotes(files);
+            }
+        };
+
+        importTask.setOnSucceeded(event -> Platform.runLater(() -> {
+            view.setImporting(false);
+            view.fillFromAI(importTask.getValue());
+        }));
+
+        importTask.setOnFailed(event -> {
+            Throwable error = importTask.getException();
+            Platform.runLater(() -> {
+                view.setImporting(false);
+                view.showError("Import failed: " + error.getMessage());
+            });
+            System.err.println("[EntryController] AI import failed: " + error.getMessage());
+        });
+
+        Thread thread = new Thread(importTask);
         thread.setDaemon(true);
         thread.start();
     }

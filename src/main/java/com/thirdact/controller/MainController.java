@@ -6,6 +6,7 @@ import com.thirdact.model.TmdbMovie;
 import com.thirdact.view.DashboardView;
 import com.thirdact.view.EntryFormView;
 import com.thirdact.view.SearchView;
+import com.thirdact.view.SettingsView;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -23,6 +24,7 @@ public class MainController {
     private DashboardView dashboardView;
     private SearchView searchView;
     private EntryFormView entryFormView;
+    private SettingsView settingsView;
 
     private SearchController searchController;
     private EntryController entryController;
@@ -66,6 +68,7 @@ public class MainController {
         dashboardView = new DashboardView(this);
         searchController = new SearchController(this);
         entryController = new EntryController(this);
+        settingsView = new SettingsView(this::showDashboard);
 
         searchView = searchController.getView();
         entryFormView = entryController.getView();
@@ -101,6 +104,15 @@ public class MainController {
     public void showEntryFormForEdit(JournalEntry entry) {
         entryController.loadExistingEntry(entry);
         rootPane.getChildren().setAll(entryFormView.getRoot());
+    }
+
+    /**
+     * Navigates to the Settings view for editing API keys.
+     */
+    public void showSettings() {
+        // Re-create SettingsView each time so fields reflect the latest saved values
+        settingsView = new SettingsView(this::showDashboard);
+        rootPane.getChildren().setAll(settingsView.getRoot());
     }
 
     public Stage getStage() {

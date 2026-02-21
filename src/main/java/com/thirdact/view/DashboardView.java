@@ -100,7 +100,12 @@ public class DashboardView {
         newEntryBtn.setCursor(Cursor.HAND);
         newEntryBtn.setOnMouseClicked(e -> mainController.showSearch());
 
-        HBox topBar = new HBox(appTitle, spacer, newEntryBtn);
+        Label settingsBtn = new Label("⚙");
+        settingsBtn.getStyleClass().add("settings-btn");
+        settingsBtn.setCursor(Cursor.HAND);
+        settingsBtn.setOnMouseClicked(e -> mainController.showSettings());
+
+        HBox topBar = new HBox(16, appTitle, spacer, newEntryBtn, settingsBtn);
         topBar.getStyleClass().add("top-bar");
         topBar.setAlignment(Pos.CENTER);
         topBar.setPadding(new Insets(16, 32, 16, 32));

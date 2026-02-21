@@ -9,8 +9,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
+import java.io.File;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Entry form view for creating or editing a journal entry.
@@ -35,6 +40,10 @@ public class EntryFormView {
     private final Label saveBtn;
     private final Label cancelBtn;
     private final Label statusLabel;
+
+    // Import from notes
+    private final Label importBtn;
+    private final Label importStatusLabel;
 
     // Stored metadata
     private int tmdbId;
@@ -89,6 +98,18 @@ public class EntryFormView {
         HBox headerBox = new HBox(20, posterView, movieInfo);
         headerBox.setPadding(new Insets(0, 0, 20, 0));
 
+        // --- Import from Notes Button ---
+        importBtn = new Label("📎  Import from Handwritten Notes");
+        importBtn.getStyleClass().add("import-btn");
+        importBtn.setCursor(Cursor.HAND);
+        importBtn.setOnMouseClicked(e -> onImport());
+
+        importStatusLabel = new Label();
+        importStatusLabel.getStyleClass().add("import-status-label");
+
+        HBox importRow = new HBox(16, importBtn, importStatusLabel);
+        importRow.setAlignment(Pos.CENTER_LEFT);
+
         // --- Text Areas ---
         summaryArea = createTextArea("Tell a friend — what's this movie about?", 3);
         vibeArea = createTextArea("What did it feel like to watch this?", 4);
@@ -96,6 +117,7 @@ public class EntryFormView {
         extraNotesArea = createTextArea("Any extra thoughts, trivia, or context...", 4);
 
         VBox fieldsBox = new VBox(16,
+                importRow,
                 labeledField("The Summary", summaryArea),
                 labeledField("The Vibe", vibeArea),
                 labeledField("The Peak Moment", peakMomentArea),
@@ -179,6 +201,8 @@ public class EntryFormView {
 
         saveBtn.setText(isEdit ? "Update Entry" : "Save Entry");
         statusLabel.setText("");
+        importStatusLabel.setText("");
+        importBtn.setDisable(false);
     }
 
     /**
@@ -187,6 +211,29 @@ public class EntryFormView {
     public void setSaving(boolean saving) {
         saveBtn.setDisable(saving);
         statusLabel.setText(saving ? "Saving..." : "");
+    }
+
+    /**
+     * Shows/hides the importing state while Gemini processes the files.
+     */
+    public void setImporting(boolean importing) {
+        importBtn.setDisable(importing);
+        saveBtn.setDisable(importing);
+        importStatusLabel.setStyle("");
+        importStatusLabel.setText(importing ? "⏳  Analysing with Gemini…" : "");
+    }
+
+    /**
+     * Fills the text areas with AI-extracted content, word-for-word.
+     * The user can still edit before saving.
+     */
+    public void fillFromAI(Map<String, String> result) {
+        setTextIfNotEmpty(summaryArea, result.get("summary"));
+        setTextIfNotEmpty(vibeArea, result.get("vibe"));
+        setTextIfNotEmpty(peakMomentArea, result.get("peakMoment"));
+        setTextIfNotEmpty(extraNotesArea, result.get("extraNotes"));
+        importStatusLabel.setStyle("-fx-text-fill: #4caf50;");
+        importStatusLabel.setText("✓  Notes imported — feel free to edit before saving.");
     }
 
     /**
@@ -199,6 +246,30 @@ public class EntryFormView {
 
     public Region getRoot() {
         return root;
+    }
+
+    // -----------------------------------------------------------------------
+    // Private helpers
+    // -----------------------------------------------------------------------
+
+    private void onImport() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Select Handwritten Notes (Images or PDF)");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images & PDFs",
+                        "*.jpg", "*.jpeg", "*.png", "*.webp", "*.gif", "*.pdf"),
+                new FileChooser.ExtensionFilter("Images", "*.jpg", "*.jpeg", "*.png", "*.webp", "*.gif"),
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+
+        Window window = root.getScene() != null ? root.getScene().getWindow() : null;
+        List<File> files = chooser.showOpenMultipleDialog(window);
+
+        if (files != null && !files.isEmpty()) {
+            importStatusLabel.setStyle("");
+            importStatusLabel.setText("");
+            controller.importFromFiles(files);
+        }
     }
 
     private void onSave() {
@@ -234,6 +305,12 @@ public class EntryFormView {
         area.setWrapText(true);
         area.getStyleClass().add("journal-text-area");
         return area;
+    }
+
+    private void setTextIfNotEmpty(TextArea area, String text) {
+        if (text != null && !text.isBlank()) {
+            area.setText(text);
+        }
     }
 
     private Region spacer() {

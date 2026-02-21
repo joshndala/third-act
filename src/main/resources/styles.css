@@ -390,3 +390,112 @@
     -fx-border-color: #d4a846;
     -fx-border-width: 3;
 }
+
+/* ============================================================
+   SETTINGS BUTTON (top-bar gear icon)
+   ============================================================ */
+
+.settings-btn {
+    -fx-font-size: 18px;
+    -fx-text-fill: #888888;
+    -fx-background-color: transparent;
+    -fx-padding: 6 10;
+    -fx-background-radius: 6;
+}
+
+.settings-btn:hover {
+    -fx-text-fill: #d4a846;
+    -fx-background-color: rgba(212, 168, 70, 0.1);
+}
+
+/* ============================================================
+   SETTINGS VIEW
+   ============================================================ */
+
+.settings-root {
+    -fx-background-color: #0d0d0d;
+}
+
+.settings-section-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+.settings-note {
+    -fx-font-size: 13px;
+    -fx-text-fill: #777777;
+}
+
+.settings-field {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: #e0e0e0;
+    -fx-prompt-text-fill: #555555;
+    -fx-padding: 12 16;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-border-color: #333333;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.settings-field:focused {
+    -fx-border-color: #d4a846;
+}
+
+.settings-save-btn {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0d0d0d;
+    -fx-background-color: #d4a846;
+    -fx-padding: 10 28;
+    -fx-background-radius: 8;
+}
+
+.settings-save-btn:hover {
+    -fx-background-color: #e6bb55;
+}
+
+.show-hide-btn {
+    -fx-font-size: 13px;
+    -fx-text-fill: #d4a846;
+    -fx-padding: 10 14;
+    -fx-border-color: #333333;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-background-color: transparent;
+    -fx-border-width: 1;
+}
+
+.show-hide-btn:hover {
+    -fx-background-color: rgba(212, 168, 70, 0.1);
+}
+
+/* ============================================================
+   IMPORT FROM NOTES BUTTON
+   ============================================================ */
+
+.import-btn {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d4a846;
+    -fx-padding: 9 20;
+    -fx-border-color: #d4a846;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-width: 1;
+    -fx-background-color: rgba(212, 168, 70, 0.08);
+}
+
+.import-btn:hover {
+    -fx-background-color: rgba(212, 168, 70, 0.18);
+}
+
+.import-btn:disabled {
+    -fx-opacity: 0.5;
+}
+
+.import-status-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #888888;
+}
