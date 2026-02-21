@@ -54,6 +54,26 @@ public class ConfigManager {
         writeUserConfig(props);
     }
 
+    /**
+     * Returns the saved theme preference: "dark", "light", or "system".
+     * Defaults to "system" if not set.
+     */
+    public String getTheme() {
+        Properties props = loadUserConfig();
+        return props.getProperty("app.theme", "system");
+    }
+
+    /**
+     * Persists the theme preference to ~/.thirdact/config.properties.
+     *
+     * @param theme one of "dark", "light", or "system"
+     */
+    public void saveTheme(String theme) throws IOException {
+        Properties props = loadUserConfig();
+        props.setProperty("app.theme", theme);
+        writeUserConfig(props);
+    }
+
     // -----------------------------------------------------------------------
     // Private helpers
     // -----------------------------------------------------------------------

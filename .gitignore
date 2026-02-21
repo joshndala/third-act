@@ -1,7 +1,16 @@
-# Maven
+# ── Maven (desktop-app) ──────────────────────────────────────────────────────
 target/
+desktop-app/target/
 
-# IDE
+# ── Node / landing-page ──────────────────────────────────────────────────────
+node_modules/
+landing-page/node_modules/
+landing-page/dist/
+landing-page/.vite/
+dist/
+.vite/
+
+# ── IDE / editors ────────────────────────────────────────────────────────────
 .idea/
 *.iml
 .vscode/
@@ -11,12 +20,27 @@ target/
 *.swp
 *~
 
-# macOS
+# ── macOS ────────────────────────────────────────────────────────────────────
 .DS_Store
+**/.DS_Store
 
-# SQLite database
+# ── SQLite database ──────────────────────────────────────────────────────────
 *.db
+*.db-shm
+*.db-wal
 
-# Config with secrets
+# ── Secrets / config with keys ───────────────────────────────────────────────
 .env
+desktop-app/.env
 src/main/resources/config.properties
+desktop-app/src/main/resources/config.properties
+
+# ── Java build artefacts ─────────────────────────────────────────────────────
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+hs_err_pid*
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*

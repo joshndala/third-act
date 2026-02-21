@@ -1,5 +1,6 @@
 package com.thirdact.view;
 
+import com.thirdact.controller.MainController;
 import com.thirdact.service.ConfigManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,7 +11,7 @@ import javafx.scene.layout.*;
 import java.io.IOException;
 
 /**
- * Settings view where users can view and update their API keys.
+ * Settings view — API keys + appearance theme.
  * Saves to ~/.thirdact/config.properties via ConfigManager.
  */
 public class SettingsView {
@@ -23,9 +24,9 @@ public class SettingsView {
 
     private boolean geminiVisible = false;
 
-    public SettingsView(Runnable onBack) {
+    public SettingsView(Runnable onBack, MainController mainController) {
 
-        // --- Top Bar ---
+        // ── Top Bar ─────────────────────────────────────────────
         Label backBtn = new Label("← Back");
         backBtn.getStyleClass().add("back-btn");
         backBtn.setCursor(Cursor.HAND);
@@ -44,7 +45,62 @@ public class SettingsView {
         topBar.setAlignment(Pos.CENTER);
         topBar.setPadding(new Insets(16, 32, 16, 32));
 
-        // --- API Keys Section ---
+        // ── Appearance Section ───────────────────────────────────
+        Label appearanceLabel = new Label("Appearance");
+        appearanceLabel.getStyleClass().add("settings-section-label");
+
+        Label appearanceNote = new Label("Choose how The Third Act looks. \"System\" follows your macOS appearance.");
+        appearanceNote.getStyleClass().add("settings-note");
+        appearanceNote.setWrapText(true);
+
+        // Segmented toggle: Dark | Light | System
+        ToggleGroup themeGroup = new ToggleGroup();
+
+        ToggleButton darkBtn = makeThemeToggle("🌙  Dark", "dark", themeGroup);
+        ToggleButton lightBtn = makeThemeToggle("☀  Light", "light", themeGroup);
+        ToggleButton systemBtn = makeThemeToggle("⬡  System", "system", themeGroup);
+
+        // Pre-select current saved theme
+        String savedTheme = ConfigManager.getInstance().getTheme();
+        switch (savedTheme) {
+            case "dark" -> darkBtn.setSelected(true);
+            case "light" -> lightBtn.setSelected(true);
+            default -> systemBtn.setSelected(true);
+        }
+
+        // Round the button group corners
+        darkBtn.getStyleClass().add("theme-toggle-left");
+        lightBtn.getStyleClass().add("theme-toggle-mid");
+        systemBtn.getStyleClass().add("theme-toggle-right");
+
+        HBox themeRow = new HBox(0, darkBtn, lightBtn, systemBtn);
+        themeRow.setAlignment(Pos.CENTER_LEFT);
+
+        // Live apply + persist on selection change
+        themeGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
+            if (newToggle == null) {
+                // Prevent deselecting all — re-select previous
+                if (oldToggle != null)
+                    oldToggle.setSelected(true);
+                return;
+            }
+            String mode = (String) newToggle.getUserData();
+            mainController.applyTheme(mode);
+            try {
+                ConfigManager.getInstance().saveTheme(mode);
+            } catch (IOException ex) {
+                System.err.println("[SettingsView] Could not save theme: " + ex.getMessage());
+            }
+        });
+
+        VBox appearanceSection = new VBox(12, appearanceLabel, appearanceNote, themeRow);
+
+        // ── Divider ──────────────────────────────────────────────
+        VBox divider = new VBox();
+        divider.setStyle("-fx-background-color: #2B3358; -fx-min-height: 1; -fx-max-height: 1;");
+        VBox.setMargin(divider, new Insets(8, 0, 8, 0));
+
+        // ── API Keys Section ─────────────────────────────────────
         Label sectionLabel = new Label("API Keys");
         sectionLabel.getStyleClass().add("settings-section-label");
 
@@ -59,7 +115,7 @@ public class SettingsView {
         tmdbField.getStyleClass().add("settings-field");
         tmdbField.setPromptText("Paste your TMDb API key here…");
 
-        // Gemini Key (masked by default with show/hide toggle)
+        // Gemini Key (masked by default)
         Label geminiLabel = new Label("Gemini API Key");
         geminiLabel.getStyleClass().add("field-label");
 
@@ -115,7 +171,10 @@ public class SettingsView {
         HBox saveRow = new HBox(16, saveBtn, statusLabel);
         saveRow.setAlignment(Pos.CENTER_LEFT);
 
+        // ── Assemble ─────────────────────────────────────────────
         VBox content = new VBox(24,
+                appearanceSection,
+                divider,
                 sectionLabel,
                 sectionNote,
                 new VBox(8, tmdbLabel, tmdbField),
@@ -133,6 +192,16 @@ public class SettingsView {
         borderPane.setCenter(wrapper);
 
         root = borderPane;
+    }
+
+    private ToggleButton makeThemeToggle(String label, String mode, ToggleGroup group) {
+        ToggleButton btn = new ToggleButton(label);
+        btn.setToggleGroup(group);
+        btn.setUserData(mode);
+        btn.getStyleClass().add("theme-toggle-btn");
+        btn.setCursor(Cursor.HAND);
+        btn.setPrefWidth(120);
+        return btn;
     }
 
     private void onSave() {

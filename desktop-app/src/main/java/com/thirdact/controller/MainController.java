@@ -3,6 +3,7 @@ package com.thirdact.controller;
 import com.thirdact.dao.DatabaseManager;
 import com.thirdact.model.JournalEntry;
 import com.thirdact.model.TmdbMovie;
+import com.thirdact.service.ConfigManager;
 import com.thirdact.view.DashboardView;
 import com.thirdact.view.EntryFormView;
 import com.thirdact.view.SearchView;
@@ -21,6 +22,8 @@ public class MainController {
     private final StackPane rootPane;
     private final Scene scene;
 
+    private String lightCssUrl;
+
     private DashboardView dashboardView;
     private SearchView searchView;
     private EntryFormView entryFormView;
@@ -36,9 +39,12 @@ public class MainController {
 
         this.scene = new Scene(rootPane, 1100, 750);
 
-        // Load stylesheet
+        // Load base (dark) stylesheet
         String css = getClass().getClassLoader().getResource("styles.css").toExternalForm();
         scene.getStylesheets().add(css);
+
+        // Cache the light-mode override URL
+        lightCssUrl = getClass().getClassLoader().getResource("theme-light.css").toExternalForm();
 
         // Initialize database
         try {
@@ -60,6 +66,9 @@ public class MainController {
         // Clean up on close
         stage.setOnCloseRequest(event -> DatabaseManager.getInstance().close());
 
+        // Apply saved/system theme before showing the window
+        applyTheme(ConfigManager.getInstance().getTheme());
+
         // Show dashboard
         showDashboard();
     }
@@ -68,10 +77,48 @@ public class MainController {
         dashboardView = new DashboardView(this);
         searchController = new SearchController(this);
         entryController = new EntryController(this);
-        settingsView = new SettingsView(this::showDashboard);
 
         searchView = searchController.getView();
         entryFormView = entryController.getView();
+    }
+
+    /**
+     * Applies the given theme. Call any time to switch instantly.
+     *
+     * @param mode "dark", "light", or "system"
+     */
+    public void applyTheme(String mode) {
+        boolean useLightMode = switch (mode) {
+            case "light" -> true;
+            case "dark" -> false;
+            default -> isSystemDarkMode() ? false : true; // "system"
+        };
+
+        if (useLightMode) {
+            if (!scene.getStylesheets().contains(lightCssUrl)) {
+                scene.getStylesheets().add(lightCssUrl);
+            }
+        } else {
+            scene.getStylesheets().remove(lightCssUrl);
+        }
+    }
+
+    /**
+     * Detects the macOS system appearance via the 'defaults' command.
+     * Returns true if the system is currently in Dark Mode.
+     */
+    private boolean isSystemDarkMode() {
+        try {
+            Process p = new ProcessBuilder("defaults", "read", "-g", "AppleInterfaceStyle")
+                    .redirectErrorStream(true)
+                    .start();
+            String output = new String(p.getInputStream().readAllBytes()).trim();
+            p.waitFor();
+            return "Dark".equalsIgnoreCase(output);
+        } catch (Exception e) {
+            // If the command fails (e.g. non-macOS), assume dark
+            return true;
+        }
     }
 
     /**
@@ -107,11 +154,11 @@ public class MainController {
     }
 
     /**
-     * Navigates to the Settings view for editing API keys.
+     * Navigates to the Settings view.
+     * Re-creates each time so fields reflect the latest saved values.
      */
     public void showSettings() {
-        // Re-create SettingsView each time so fields reflect the latest saved values
-        settingsView = new SettingsView(this::showDashboard);
+        settingsView = new SettingsView(this::showDashboard, this);
         rootPane.getChildren().setAll(settingsView.getRoot());
     }
 

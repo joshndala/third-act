@@ -1,0 +1,248 @@
+/*
+ * The Third Act — Light Mode Override
+ * Added to scene.getStylesheets() on top of styles.css when light mode is active.
+ * Dark mode = no extra stylesheet (styles.css defaults are navy).
+ */
+
+/* ── Root ──────────────────────────────────────────────────── */
+.root {
+    -fx-base: #F5F2E9;
+    -fx-background: #F5F2E9;
+    -fx-control-inner-background: #EDE9DC;
+    -fx-text-fill: #2B3358;
+}
+
+.root-pane {
+    -fx-background-color: #F5F2E9;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+.scroll-bar .thumb {
+    -fx-background-color: #C8C4B7;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #B0AC9F;
+}
+
+/* ── Top Bar ───────────────────────────────────────────────── */
+.top-bar {
+    -fx-background-color: linear-gradient(to bottom, #EDE9DC, #F5F2E9);
+    -fx-border-color: transparent transparent #D9D4C7 transparent;
+}
+
+.view-title {
+    -fx-text-fill: #2B3358;
+}
+
+.new-entry-btn {
+    -fx-text-fill: #F5F2E9;
+}
+
+.back-btn {
+    -fx-border-color: #D4A15C;
+}
+
+.settings-btn {
+    -fx-text-fill: #9A9590;
+}
+
+/* ── Dashboard ─────────────────────────────────────────────── */
+.dashboard-root {
+    -fx-background-color: #F5F2E9;
+}
+
+.tracker-label {
+    -fx-text-fill: #3D3A30;
+}
+
+.tracker-bar-container {
+    -fx-background-color: #D9D4C7;
+}
+
+/* ── Entry cards ───────────────────────────────────────────── */
+.entry-card {
+    -fx-background-color: #EDE9DC;
+    -fx-effect: dropshadow(gaussian, rgba(43, 51, 88, 0.12), 12, 0, 0, 4);
+}
+
+.card-overlay {
+    -fx-background-color: linear-gradient(to top,
+            rgba(237, 233, 220, 0.92) 0%,
+            rgba(237, 233, 220, 0.4) 50%,
+            rgba(237, 233, 220, 0.05) 100%);
+}
+
+.card-title {
+    -fx-text-fill: #12162B;
+}
+
+.empty-label {
+    -fx-text-fill: #B0AC9F;
+}
+
+/* ── Search ────────────────────────────────────────────────── */
+.search-root {
+    -fx-background-color: #F5F2E9;
+}
+
+.search-field {
+    -fx-background-color: #EDE9DC;
+    -fx-text-fill: #2B3358;
+    -fx-prompt-text-fill: #B0AC9F;
+    -fx-border-color: #D9D4C7;
+}
+
+.search-field:focused {
+    -fx-border-color: #D4A15C;
+}
+
+.search-btn {
+    -fx-text-fill: #F5F2E9;
+}
+
+.status-label {
+    -fx-text-fill: #9A9590;
+}
+
+.search-result-row {
+    -fx-background-color: #EDE9DC;
+    -fx-border-color: #D9D4C7;
+}
+
+.search-result-row-hover {
+    -fx-background-color: #E4DFD0;
+    -fx-border-color: #D4A15C;
+}
+
+.result-title {
+    -fx-text-fill: #12162B;
+}
+
+.result-overview {
+    -fx-text-fill: #7A7670;
+}
+
+/* ── Entry Form ────────────────────────────────────────────── */
+.entry-form-root {
+    -fx-background-color: #F5F2E9;
+}
+
+.entry-movie-title {
+    -fx-text-fill: #12162B;
+}
+
+.journal-text-area {
+    -fx-background-color: #EDE9DC;
+    -fx-text-fill: #2B3358;
+    -fx-prompt-text-fill: #C8C4B7;
+    -fx-border-color: #D9D4C7;
+}
+
+.journal-text-area:focused {
+    -fx-border-color: #D4A15C;
+}
+
+.journal-text-area .content {
+    -fx-background-color: #EDE9DC;
+}
+
+.theater-toggle {
+    -fx-text-fill: #3D3A30;
+}
+
+.theater-toggle .box {
+    -fx-background-color: #D9D4C7;
+    -fx-border-color: #B0AC9F;
+}
+
+.save-btn {
+    -fx-text-fill: #F5F2E9;
+}
+
+.cancel-btn {
+    -fx-text-fill: #9A9590;
+    -fx-border-color: #C8C4B7;
+}
+
+.cancel-btn:hover {
+    -fx-text-fill: #2B3358;
+    -fx-border-color: #9A9590;
+}
+
+/* ── Date Picker ───────────────────────────────────────────── */
+.date-picker {
+    -fx-background-color: #EDE9DC;
+    -fx-border-color: #D9D4C7;
+}
+
+.date-picker .text-field {
+    -fx-background-color: #EDE9DC;
+    -fx-text-fill: #2B3358;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #D9D4C7;
+}
+
+/* ── Settings ──────────────────────────────────────────────── */
+.settings-root {
+    -fx-background-color: #F5F2E9;
+}
+
+.settings-section-label {
+    -fx-text-fill: #12162B;
+}
+
+.settings-note {
+    -fx-text-fill: #9A9590;
+}
+
+.settings-field {
+    -fx-background-color: #EDE9DC;
+    -fx-text-fill: #2B3358;
+    -fx-prompt-text-fill: #C8C4B7;
+    -fx-border-color: #D9D4C7;
+}
+
+.settings-field:focused {
+    -fx-border-color: #D4A15C;
+}
+
+.settings-save-btn {
+    -fx-text-fill: #F5F2E9;
+}
+
+.show-hide-btn {
+    -fx-border-color: #D9D4C7;
+}
+
+.show-hide-btn:hover {
+    -fx-background-color: rgba(212, 161, 92, 0.08);
+}
+
+/* ── Import button ─────────────────────────────────────────── */
+.import-btn {
+    -fx-background-color: rgba(212, 161, 92, 0.1);
+}
+
+.import-btn:hover {
+    -fx-background-color: rgba(212, 161, 92, 0.22);
+}
+
+.import-status-label {
+    -fx-text-fill: #9A9590;
+}
+
+/* ── Theme toggle buttons (light variant) ──────────────────── */
+.theme-toggle-btn {
+    -fx-background-color: #EDE9DC;
+    -fx-text-fill: #7A7670;
+    -fx-border-color: #D9D4C7;
+}
+
+.theme-toggle-btn:selected {
+    -fx-background-color: #D4A15C;
+    -fx-text-fill: #F5F2E9;
+    -fx-border-color: #D4A15C;
+}
