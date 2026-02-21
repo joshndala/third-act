@@ -106,6 +106,14 @@ public class EntryController {
         if (files == null || files.isEmpty())
             return;
 
+        // Check for Gemini API key before importing
+        if (com.thirdact.service.ConfigManager.getInstance().getGeminiApiKey().isBlank()) {
+            mainController.showSettingsWithWarning(
+                    "Please enter your Gemini API key to enable AI transcription.",
+                    false, true);
+            return;
+        }
+
         view.setImporting(true);
 
         Task<Map<String, String>> importTask = new Task<>() {

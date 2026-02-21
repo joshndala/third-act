@@ -27,27 +27,23 @@ public class TmdbService {
 
     private static final String BASE_URL = "https://api.themoviedb.org/3";
 
-    private final String apiKey;
     private final HttpClient httpClient;
 
     public TmdbService() {
-        this.apiKey = ConfigManager.getInstance().getTmdbApiKey();
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
-
-        if (apiKey.isBlank() || apiKey.equals("YOUR_TMDB_API_KEY_HERE")) {
-            System.err.println("[TmdbService] WARNING: No valid TMDb API key found!");
-            System.err.println("  → Set TMDB_API_KEY in your .env file or as an environment variable.");
-        } else {
-            System.out.println("[TmdbService] API key resolved via ConfigManager.");
-        }
     }
 
     /**
      * Searches TMDb for movies matching the query string.
      */
     public List<TmdbMovie> searchMovies(String query) throws IOException, InterruptedException {
+        String apiKey = ConfigManager.getInstance().getTmdbApiKey();
+        if (apiKey.isBlank() || apiKey.equals("YOUR_TMDB_API_KEY_HERE")) {
+            throw new IllegalStateException("TMDb API key is missing or invalid.");
+        }
+
         String encoded = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String url = BASE_URL + "/search/movie?api_key=" + apiKey
                 + "&query=" + encoded
@@ -61,6 +57,7 @@ public class TmdbService {
      * Fetches detailed movie information by TMDb ID.
      */
     public TmdbMovie getMovieDetails(int tmdbId) throws IOException, InterruptedException {
+        String apiKey = ConfigManager.getInstance().getTmdbApiKey();
         String url = BASE_URL + "/movie/" + tmdbId + "?api_key=" + apiKey + "&language=en-US";
         String json = sendGet(url);
         return parseSingleMovie(JsonParser.parseString(json).getAsJsonObject());

@@ -158,7 +158,17 @@ public class MainController {
      * Re-creates each time so fields reflect the latest saved values.
      */
     public void showSettings() {
+        showSettingsWithWarning(null, false, false);
+    }
+
+    /**
+     * Navigates to Settings and displays a warning message.
+     */
+    public void showSettingsWithWarning(String message, boolean highlightTmdb, boolean highlightGemini) {
         settingsView = new SettingsView(this::showDashboard, this);
+        if (message != null) {
+            settingsView.showWarning(message, highlightTmdb, highlightGemini);
+        }
         rootPane.getChildren().setAll(settingsView.getRoot());
     }
 

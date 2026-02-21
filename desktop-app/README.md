@@ -26,5 +26,32 @@ GEMINI_API_KEY=your_key
 mvn javafx:run
 ```
 
+## Build & Package (macOS)
+
+To generate a standalone `.dmg` installer:
+
+1. **Build the JAR**:
+   ```bash
+   mvn clean package -DskipTests
+   ```
+
+2. **Run jpackage**:
+   ```bash
+   rm -rf target/jpackage-input target/dist && mkdir -p target/jpackage-input target/dist
+   cp target/third-act-1.0.0.jar target/jpackage-input/
+   jpackage \
+     --input target/jpackage-input \
+     --name "The Third Act" \
+     --main-jar third-act-1.0.0.jar \
+     --main-class com.thirdact.Launcher \
+     --type dmg \
+     --icon src/main/resources/icon.icns \
+     --dest target/dist \
+     --app-version 1.0.0 \
+     --java-options "--enable-native-access=ALL-UNNAMED"
+   ```
+
+Final output will be in `target/dist/`.
+
 ---
 *For full project documentation, see the [Root README](../README.md).*

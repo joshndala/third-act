@@ -216,9 +216,27 @@ public class SettingsView {
                     geminiKey.isEmpty() ? null : geminiKey);
             statusLabel.setText("✓ Keys saved.");
             statusLabel.setStyle("-fx-text-fill: #4caf50;");
+
+            // Reset any warnings
+            tmdbField.setStyle("");
+            geminiFieldMasked.setStyle("");
+            geminiFieldVisible.setStyle("");
         } catch (IOException ex) {
             statusLabel.setText("⚠ Could not save: " + ex.getMessage());
             statusLabel.setStyle("-fx-text-fill: #e74c3c;");
+        }
+    }
+
+    public void showWarning(String message, boolean highlightTmdb, boolean highlightGemini) {
+        statusLabel.setText(message);
+        statusLabel.setStyle("-fx-text-fill: #D4A15C; -fx-font-weight: bold;");
+
+        if (highlightTmdb) {
+            tmdbField.setStyle("-fx-border-color: #D4A15C; -fx-border-width: 2; -fx-border-radius: 4;");
+        }
+        if (highlightGemini) {
+            geminiFieldMasked.setStyle("-fx-border-color: #D4A15C; -fx-border-width: 2; -fx-border-radius: 4;");
+            geminiFieldVisible.setStyle("-fx-border-color: #D4A15C; -fx-border-width: 2; -fx-border-radius: 4;");
         }
     }
 

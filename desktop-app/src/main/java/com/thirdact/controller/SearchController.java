@@ -31,6 +31,14 @@ public class SearchController {
         if (query == null || query.isBlank())
             return;
 
+        // Check for API key before searching
+        if (com.thirdact.service.ConfigManager.getInstance().getTmdbApiKey().isBlank()) {
+            mainController.showSettingsWithWarning(
+                    "Please enter your TMDb API key to enable movie search.",
+                    true, false);
+            return;
+        }
+
         view.showLoading(true);
         view.clearResults();
 
