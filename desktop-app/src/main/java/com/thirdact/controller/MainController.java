@@ -4,13 +4,26 @@ import com.thirdact.dao.DatabaseManager;
 import com.thirdact.model.JournalEntry;
 import com.thirdact.model.TmdbMovie;
 import com.thirdact.service.ConfigManager;
+import com.thirdact.service.UpdateService;
 import com.thirdact.view.DashboardView;
 import com.thirdact.view.EntryFormView;
 import com.thirdact.view.SearchView;
 import com.thirdact.view.SettingsView;
+import com.thirdact.Main;
+
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+
+import java.awt.Desktop;
+import java.net.URI;
 
 /**
  * Main controller that owns the Stage and manages view navigation.
@@ -19,7 +32,9 @@ import javafx.stage.Stage;
 public class MainController {
 
     private final Stage stage;
+    private final VBox windowContainer;
     private final StackPane rootPane;
+    private final HBox updateBanner;
     private final Scene scene;
 
     private String lightCssUrl;
@@ -36,8 +51,35 @@ public class MainController {
         this.stage = stage;
         this.rootPane = new StackPane();
         rootPane.getStyleClass().add("root-pane");
+        VBox.setVgrow(rootPane, Priority.ALWAYS);
 
-        this.scene = new Scene(rootPane, 1100, 750);
+        // --- Update Banner Setup ---
+        Label updateLabel = new Label("A new version of The Third Act is available!");
+        updateLabel.getStyleClass().add("update-label");
+
+        Button downloadButton = new Button("Download Update");
+        downloadButton.getStyleClass().add("update-button");
+        downloadButton.setOnAction(e -> openDownloadPage());
+
+        Button dismissButton = new Button("✕");
+        dismissButton.getStyleClass().add("update-dismiss-button");
+
+        updateBanner = new HBox(15, updateLabel, downloadButton, dismissButton);
+
+        dismissButton.setOnAction(e -> updateBanner.setVisible(false));
+        dismissButton.setOnAction(e -> {
+            updateBanner.setVisible(false);
+            updateBanner.setManaged(false);
+        });
+
+        updateBanner.getStyleClass().add("update-banner");
+        updateBanner.setAlignment(Pos.CENTER);
+        updateBanner.setVisible(false);
+        updateBanner.setManaged(false);
+        // ---------------------------
+
+        this.windowContainer = new VBox(updateBanner, rootPane);
+        this.scene = new Scene(windowContainer, 1100, 750);
 
         // Load base (dark) stylesheet
         String css = getClass().getClassLoader().getResource("styles.css").toExternalForm();
@@ -69,8 +111,25 @@ public class MainController {
         // Apply saved/system theme before showing the window
         applyTheme(ConfigManager.getInstance().getTheme());
 
+        // Check for updates asynchronously
+        UpdateService.checkForUpdates(Main.APP_VERSION, latestVersion -> {
+            Platform.runLater(() -> {
+                updateLabel.setText("A new version (" + latestVersion + ") is available!");
+                updateBanner.setVisible(true);
+                updateBanner.setManaged(true);
+            });
+        });
+
         // Show dashboard
         showDashboard();
+    }
+
+    private void openDownloadPage() {
+        try {
+            Desktop.getDesktop().browse(new URI("https://github.com/joshndala/third-act/releases/latest"));
+        } catch (Exception e) {
+            System.err.println("[MainController] Failed to open download page: " + e.getMessage());
+        }
     }
 
     private void initializeViews() {

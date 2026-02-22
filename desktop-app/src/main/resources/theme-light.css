@@ -47,6 +47,35 @@
     -fx-text-fill: #9A9590;
 }
 
+/* ── Update Banner ─────────────────────────────────────────── */
+.update-banner {
+    -fx-background-color: linear-gradient(to right, #EDE9DC, #F5F2E9);
+    -fx-border-color: transparent transparent #D9D4C7 transparent;
+}
+
+.update-label {
+    -fx-text-fill: #12162B;
+}
+
+.update-button {
+    -fx-text-fill: #F5F2E9;
+    -fx-background-color: #2B3358;
+}
+
+.update-button:hover {
+    -fx-background-color: #3a4070;
+}
+
+.update-dismiss-button {
+    -fx-text-fill: #9A9590;
+}
+
+.update-dismiss-button:hover {
+    -fx-background-color: rgba(43, 51, 88, 0.08);
+    /* slight navy tint */
+    -fx-text-fill: #2B3358;
+}
+
 /* ── Dashboard ─────────────────────────────────────────────── */
 .dashboard-root {
     -fx-background-color: #F5F2E9;

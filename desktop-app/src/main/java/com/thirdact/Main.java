@@ -18,6 +18,8 @@ import java.io.InputStream;
  */
 public class Main extends Application {
 
+    public static final String APP_VERSION = "1.0.0";
+
     @Override
     public void start(Stage primaryStage) {
         // Set window title-bar icon (works in all environments)

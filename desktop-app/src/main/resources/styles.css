@@ -113,6 +113,50 @@
 }
 
 /* ============================================================
+   UPDATE BANNER
+   ============================================================ */
+
+.update-banner {
+    -fx-background-color: linear-gradient(to right, #2B3358, #1a1f3d);
+    -fx-padding: 10 20;
+    -fx-border-color: transparent transparent #1a1f3d transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.update-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #F5F2E9;
+}
+
+.update-button {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #12162B;
+    -fx-background-color: #D4A15C;
+    -fx-padding: 6 16;
+    -fx-background-radius: 6;
+}
+
+.update-button:hover {
+    -fx-background-color: #E8B66A;
+}
+
+.update-dismiss-button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6a7090;
+    -fx-background-color: transparent;
+    -fx-padding: 4 8;
+    -fx-background-radius: 4;
+}
+
+.update-dismiss-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-text-fill: #F5F2E9;
+}
+
+/* ============================================================
    DASHBOARD
    ============================================================ */
 
