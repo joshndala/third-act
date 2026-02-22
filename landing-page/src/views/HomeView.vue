@@ -2,24 +2,36 @@
   <!-- ══ HERO ══════════════════════════════════════════════════════════ -->
   <section class="hero">
     <div class="hero-inner">
-      <img src="/icon.png" alt="The Third Act logo" class="hero-logo" />
-      <p class="section-label">A Mac App for Movie Lovers</p>
-      <h1>Your films deserve<br /><em>more than a star rating.</em></h1>
-      <p class="hero-sub">
-        The Third Act is a private, cinematic movie journal that lives entirely
-        on your computer — no algorithms, no social feeds, just you and your
-        relationship with film.
-      </p>
-      <div class="hero-cta">
-        <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
-          ↓ Download for Mac
-        </a>
-        <button v-else class="btn-primary is-disabled" title="Exclusive to macOS desktop">
-          macOS Required to Install
-        </button>
-        <RouterLink to="/why" class="btn-ghost">Why it exists →</RouterLink>
+      <div class="hero-content">
+        <p class="section-label">A Mac App for Movie Lovers</p>
+        <h1>Your films deserve<br /><em>more than a star rating.</em></h1>
+        <p class="hero-sub">
+          The Third Act is a private, cinematic movie journal that lives entirely
+          on your computer — no algorithms, no social feeds, just you and your
+          relationship with film.
+        </p>
+        <div class="hero-cta">
+          <a v-if="isSupported" href="https://github.com/joshndala/third-act/releases/latest/download/TheThirdAct-macOS.dmg" class="btn-primary">
+            ↓ Download for Mac
+          </a>
+          <button v-else class="btn-primary is-disabled" title="Exclusive to macOS desktop">
+            macOS Required to Install
+          </button>
+          <RouterLink to="/why" class="btn-ghost">Why it exists →</RouterLink>
+        </div>
+        <p class="hero-platform-note">Currently exclusive to macOS</p>
       </div>
-      <p class="hero-platform-note">Currently exclusive to macOS</p>
+
+      <div class="hero-media">
+        <div class="video-container">
+          <iframe 
+            src="https://player.vimeo.com/video/1167035576?autoplay=1&loop=1&muted=1&autopause=0&controls=1" 
+            frameborder="0" 
+            allow="autoplay; fullscreen; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
     </div>
     <div class="hero-grain"></div>
   </section>
@@ -27,8 +39,11 @@
   <!-- ══ FEATURES ═══════════════════════════════════════════════════════ -->
   <section class="features-section">
     <div class="section">
-      <p class="section-label" style="text-align:center">What's inside</p>
-      <h2 style="text-align:center;margin-bottom:60px">Built for how you<br />actually feel about movies</h2>
+      <div class="features-header">
+        <img src="/icon.png" alt="The Third Act logo" class="features-logo" />
+        <p class="section-label">What's inside</p>
+        <h2>Built for how you<br />actually feel about movies</h2>
+      </div>
       <div class="features-grid">
         <div class="feature-card feature-card--1">
           <div class="feature-icon">🔒</div>
@@ -107,16 +122,27 @@ const { isSupported } = usePlatformDetection()
 .hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 720px;
-  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+  text-align: left;
 }
-.hero-logo {
-  width: 110px;
-  height: 110px;
-  object-fit: contain;
-  margin-bottom: 28px;
-  filter: drop-shadow(0 8px 24px rgba(212,161,92,0.3));
-  animation: float 4s ease-in-out infinite;
+@media (max-width: 992px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+  .hero-content {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 @keyframes float {
   0%, 100% { transform: translateY(0); }
@@ -129,6 +155,7 @@ const { isSupported } = usePlatformDetection()
   font-size: clamp(2.6rem, 6vw, 4.2rem);
   color: var(--cream);
   margin-bottom: 24px;
+  line-height: 1.1;
 }
 .hero h1 em {
   color: var(--gold);
@@ -138,14 +165,24 @@ const { isSupported } = usePlatformDetection()
   font-size: 1.15rem;
   color: rgba(245,242,233,0.85);
   max-width: 560px;
-  margin: 0 auto 44px;
+  margin-bottom: 44px;
   line-height: 1.75;
+}
+@media (max-width: 992px) {
+  .hero-sub {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 .hero-cta {
   display: flex;
   gap: 16px;
-  justify-content: center;
   flex-wrap: wrap;
+}
+@media (max-width: 992px) {
+  .hero-cta {
+    justify-content: center;
+  }
 }
 .is-disabled {
   opacity: 0.5;
@@ -170,10 +207,58 @@ const { isSupported } = usePlatformDetection()
   text-transform: uppercase;
 }
 
+/* ── Video Demo ─────────────────────────────────────── */
+.hero-media {
+  width: 100%;
+}
+.video-container {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(245, 242, 233, 0.1);
+  background: var(--navy);
+  transform: perspective(1000px) rotateY(-5deg) translateY(-10px);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+@media (max-width: 992px) {
+  .video-container {
+    transform: none;
+  }
+}
+.video-container:hover {
+  transform: perspective(1000px) rotateY(0deg) translateY(-5px);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.7);
+}
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /* ── Features ───────────────────────────────────────── */
 .features-section {
   background: var(--cream);
   padding: 100px 0;
+}
+.features-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 60px;
+}
+.features-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 8px 24px rgba(43,51,88,0.15));
+  animation: float 4s ease-in-out infinite;
 }
 .features-section h2 {
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
