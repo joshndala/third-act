@@ -25,7 +25,7 @@
       <div class="hero-media">
         <div class="video-container">
           <iframe 
-            src="https://player.vimeo.com/video/1167035576?autoplay=1&loop=1&muted=1&autopause=0&controls=1" 
+            src="https://player.vimeo.com/video/1167127685?autoplay=1&loop=1&muted=1&autopause=0&controls=0&background=1" 
             frameborder="0" 
             allow="autoplay; fullscreen; picture-in-picture" 
             allowfullscreen>
