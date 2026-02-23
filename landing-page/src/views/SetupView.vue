@@ -73,6 +73,21 @@
         class="btn-primary"
       >Download for Mac ↓</a>
       <button v-else class="btn-primary is-disabled">Exclusive to macOS</button>
+      
+      <!-- MacOS Security Warning -->
+      <div class="security-tip">
+        <span class="lock-icon">🔒</span>
+        <div class="security-content">
+          <h3>A Note on macOS Security</h3>
+          <p>
+            Because "The Third Act" is an independent, open-source project not hosted on the App Store, you may see a warning that <strong>Apple could not verify the developer</strong>.
+          </p>
+          <div class="security-instruction">
+            <p><strong>Option 1 (Fastest):</strong> Right-click (or Control-click) the app icon > <strong>Open</strong>. This only needs to be done once!</p>
+            <p style="margin-top: 8px;"><strong>Option 2:</strong> Open System Settings > <strong>Privacy & Security</strong>, scroll down, and click <strong>Open Anyway</strong> next to the warning about "The Third Act".</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -411,6 +426,43 @@ const { isSupported } = usePlatformDetection()
   line-height: 1.7;
 }
 .gemini-tip strong { color: var(--gold); }
+
+/* ── Security Hint ──────────────────────────────────── */
+.security-tip {
+  display: flex;
+  gap: 16px;
+  background: rgba(231, 76, 60, 0.08);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  margin-top: 32px;
+  max-width: 680px;
+}
+.lock-icon { 
+  font-size: 1.6rem; 
+  flex-shrink: 0; 
+  margin-top: 2px; 
+}
+.security-content h3 {
+  color: #e74c3c;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+.security-content p {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.security-instruction {
+  margin-top: 12px;
+  background: rgba(43,51,88,0.05); /* very light navy */
+  padding: 12px 16px;
+  border-radius: 6px;
+  border-left: 3px solid #e74c3c;
+}
+.security-instruction strong {
+  color: var(--ink);
+}
 
 /* ── Done ───────────────────────────────────────────── */
 .done-section {
