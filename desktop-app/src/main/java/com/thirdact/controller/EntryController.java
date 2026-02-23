@@ -10,8 +10,12 @@ import javafx.concurrent.Task;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import com.thirdact.service.MobileUploadServer;
+import com.thirdact.util.QrCodeGenerator;
+import javafx.scene.image.Image;
 
 /**
  * Controller for the journal entry form.
@@ -25,6 +29,7 @@ public class EntryController {
     private final GeminiService geminiService;
 
     private JournalEntry existingEntry; // null if creating new
+    private MobileUploadServer mobileUploadServer;
 
     public EntryController(MainController mainController) {
         this.mainController = mainController;
@@ -143,6 +148,46 @@ public class EntryController {
     }
 
     /**
+     * Starts the local HTTP server, generates a QR code, and displays the popup.
+     */
+    public void startMobileUpload() {
+        if (com.thirdact.service.ConfigManager.getInstance().getGeminiApiKey().isBlank()) {
+            mainController.showSettingsWithWarning(
+                    "Please enter your Gemini API key to enable AI transcription.",
+                    false, true);
+            return;
+        }
+
+        if (mobileUploadServer != null) {
+            mobileUploadServer.stop();
+        }
+
+        mobileUploadServer = new MobileUploadServer(
+                file -> {
+                    Platform.runLater(() -> {
+                        view.hideQrPopup();
+                        importFromFiles(Collections.singletonList(file));
+                    });
+                },
+                () -> {
+                    // Cleanup callback
+                });
+
+        if (mobileUploadServer.start()) {
+            String url = mobileUploadServer.getServerUrl();
+            Image qrImage = QrCodeGenerator.generate(url, 300, 300);
+            view.showQrPopup(qrImage, url, () -> {
+                if (mobileUploadServer != null) {
+                    mobileUploadServer.stop();
+                    mobileUploadServer = null;
+                }
+            });
+        } else {
+            view.showError("Failed to start local upload server.");
+        }
+    }
+
+    /**
      * Deletes the current entry on a background thread.
      */
     public void deleteEntry() {
@@ -182,6 +227,10 @@ public class EntryController {
      * Cancels the form and returns to the dashboard.
      */
     public void cancel() {
+        if (mobileUploadServer != null) {
+            mobileUploadServer.stop();
+            mobileUploadServer = null;
+        }
         mainController.showDashboard();
     }
 

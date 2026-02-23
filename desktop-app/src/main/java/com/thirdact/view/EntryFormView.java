@@ -24,7 +24,9 @@ import java.util.Map;
 public class EntryFormView {
 
     private final EntryController controller;
+    private final StackPane mainWrapper;
     private final BorderPane root;
+    private VBox qrOverlay;
 
     // Form fields
     private final Label movieTitleLabel;
@@ -44,6 +46,7 @@ public class EntryFormView {
 
     // Import from notes
     private final Label importBtn;
+    private final Label mobileBtn;
     private final Label importStatusLabel;
 
     // Stored metadata
@@ -56,6 +59,7 @@ public class EntryFormView {
 
         root = new BorderPane();
         root.getStyleClass().add("entry-form-root");
+        mainWrapper = new StackPane(root);
 
         // --- Top Bar ---
         Label backBtn = new Label("← Cancel");
@@ -105,10 +109,15 @@ public class EntryFormView {
         importBtn.setCursor(Cursor.HAND);
         importBtn.setOnMouseClicked(e -> onImport());
 
+        mobileBtn = new Label("📱 Scan from Mobile");
+        mobileBtn.getStyleClass().add("import-btn");
+        mobileBtn.setCursor(Cursor.HAND);
+        mobileBtn.setOnMouseClicked(e -> controller.startMobileUpload());
+
         importStatusLabel = new Label();
         importStatusLabel.getStyleClass().add("import-status-label");
 
-        HBox importRow = new HBox(16, importBtn, importStatusLabel);
+        HBox importRow = new HBox(16, importBtn, mobileBtn, importStatusLabel);
         importRow.setAlignment(Pos.CENTER_LEFT);
 
         // --- Text Areas ---
@@ -213,6 +222,7 @@ public class EntryFormView {
         statusLabel.setText("");
         importStatusLabel.setText("");
         importBtn.setDisable(false);
+        mobileBtn.setDisable(false);
     }
 
     /**
@@ -228,6 +238,7 @@ public class EntryFormView {
      */
     public void setImporting(boolean importing) {
         importBtn.setDisable(importing);
+        mobileBtn.setDisable(importing);
         saveBtn.setDisable(importing);
         deleteBtn.setDisable(importing);
 
@@ -272,7 +283,60 @@ public class EntryFormView {
     }
 
     public Region getRoot() {
-        return root;
+        return mainWrapper;
+    }
+
+    /**
+     * Shows an overlay with a QR code for mobile upload.
+     */
+    public void showQrPopup(Image qrImage, String url, Runnable onCancel) {
+        if (qrOverlay != null)
+            hideQrPopup();
+
+        qrOverlay = new VBox(20);
+        qrOverlay.setAlignment(Pos.CENTER);
+        qrOverlay.setStyle("-fx-background-color: rgba(0,0,0,0.85);");
+
+        Label title = new Label("Scan to Upload Note");
+        title.setStyle("-fx-font-size: 24px; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        Label instruction = new Label("1. Join your phone to the same Wi-Fi.\n" +
+                "2. Scan this QR code with your Camera app.\n" +
+                "3. Take or select a photo on your phone.");
+        instruction.setStyle("-fx-font-size: 16px; -fx-text-fill: #cccccc;");
+        instruction.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+
+        ImageView qrView = new ImageView(qrImage);
+        qrView.setFitWidth(250);
+        qrView.setFitHeight(250);
+
+        Label urlLabel = new Label(url);
+        urlLabel.setStyle("-fx-font-family: monospace; -fx-font-size: 14px; -fx-text-fill: #888888;");
+
+        Button cancelBtn = new Button("Cancel");
+        cancelBtn.setStyle("-fx-font-size: 16px; -fx-padding: 8px 20px; -fx-cursor: hand;");
+        cancelBtn.setOnAction(e -> {
+            hideQrPopup();
+            onCancel.run();
+        });
+
+        qrOverlay.getChildren().addAll(title, instruction, qrView, urlLabel, cancelBtn);
+
+        // Bind overlay to match root size
+        qrOverlay.prefWidthProperty().bind(mainWrapper.widthProperty());
+        qrOverlay.prefHeightProperty().bind(mainWrapper.heightProperty());
+
+        mainWrapper.getChildren().add(qrOverlay);
+    }
+
+    /**
+     * Hides the QR code overlay.
+     */
+    public void hideQrPopup() {
+        if (qrOverlay != null) {
+            mainWrapper.getChildren().remove(qrOverlay);
+            qrOverlay = null;
+        }
     }
 
     // -----------------------------------------------------------------------

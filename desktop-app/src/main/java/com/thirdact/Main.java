@@ -18,7 +18,7 @@ import java.io.InputStream;
  */
 public class Main extends Application {
 
-    public static final String APP_VERSION = "1.0.0";
+    public static final String APP_VERSION = "1.1.0";
 
     @Override
     public void start(Stage primaryStage) {

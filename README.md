@@ -18,7 +18,7 @@ A local-first, privacy-focused movie journal with AI-powered features.
 
 ### Features
 - **Cinematic Dashboard** — High-res backdrop cards with gradient overlays.
-- **AI-Powered Archiving** — Import handwritten notes via Gemini 2.0 Flash (OCR & summarization).
+- **AI-Powered Archiving** — Import handwritten notes via Gemini 2.0 Flash (OCR & summarization). Upload directly from your mobile device via a local network QR code.
 - **Movie Search** — Powered by TMDb for metadata and high-res assets.
 - **Customizable Appearance** — Switch between brand Navy (Dark) and Cream (Light) themes.
 - **Local & Private** — All data stays on your machine in a SQLite database.
