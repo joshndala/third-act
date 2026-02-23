@@ -18,7 +18,7 @@ import java.util.Map;
  * Service that sends uploaded images/PDFs to the Gemini API and extracts
  * movie journal field content word-for-word.
  *
- * Model: gemini-2.0-flash (requested as "gemini-3-flash-preview")
+ * Model: gemini-3.0-flash-preview
  * Transport: REST/JSON with inline base64 file parts — no extra dependencies.
  */
 public class GeminiService {
